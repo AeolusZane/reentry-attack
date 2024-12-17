@@ -1,69 +1,29 @@
-# NFT Project
+# 重入攻击示例(reentry attack demo)
 
-NFT通过一个TokenId对应一个URI来确保资产的唯一性
-TokenId和playerAddress是一对一的关系
+## 角色(character)
+* 盗窃者账号(attacker account)
+0x70997970C51812dc3A010C7d01b50e0d17dc79C8
+* 当前账号(creator account)
+0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+* 合约地址(token contract address)
+0x5FbDB2315678afecb367f032d93F642f64180aa3
+* 攻击合约地址(attack contract address)
+0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0
 
-ERC721合约交易
+## 流程(process)
+* 1.当前账号创建ERC20合约
+* 2.当前账号创建攻击合约
+* 3.当前账号给ERC20合约转账
+* 4.攻击合约调用ERC20合约提取资金（调用一次提走合约中所有的钱）
 
-初始化合约时，会触发一次Transfer事件，会把最新的tokenId 和 player emit出来，后台及时监控到这个事件把内容存入数据库
-contract.on('Transfer', (_, playerAddress, tokenId: BigNumber) => {
-    console.log(playerAddress, tokenId.toNumber(), 'transfer')
-})
+## 执行(run)
+`npm install`安装依赖(install dependencies)
 
-这个URI保存的地址的内容会变怎么办？
+`npx hardhat test`查看执行流程(see the process)
 
-用ipfs保证资源不可变
+## 结果(result)
+The status of each step can be viewed through the console, and eventually the thief can be seen to withdraw all the funds after calling the contract method once
 
-比如URI：
-![](https://ipfs.filebase.io/ipfs/QmTz6ajnLUXwaXCjZ7Zvdk2nXGdQNspnLPsgwZFDP45tUJ/ghost.json)
+可以通过控制台查看每一步的状态，最终可以看到盗窃者调用一次合约方法后，提走了所有资金
 
-其对应的图片内容如下
-![](https://ipfs.filebase.io/ipfs/QmUeeVBV6ZiKgQSGLjDDtUdkbCcYXbTAkuApEeJeun1rL7)
-
-由此，我们用HeroFactory可以做个自己的NFT
-
-tokenURI format
-
-Mage:
-```json
-{
-    "name": "Mage",
-    "description": "Mages wield powerful magic, casting spells like fireballs and shields to attack and protect.",
-    "image": "xxx",
-    "strength": "18",
-    "health": "18",
-    "dexterity": "18",
-    "intellect": "18",
-    "magic": "18",
-}
-```
-
-Healer
-```json
-{
-    "name": "Healer",
-    "description": "Healers specialize in mending wounds and restoring vitality, crucial in supporting allies during battles with their mending spells and protective charms.",
-    "image": "xxx",
-    "strength": "18",
-    "health": "18",
-    "dexterity": "18",
-    "intellect": "18",
-    "magic": "18",
-}
-```
-
-Barbarians
-```json
-{
-    "name": "Barbarians",
-    "description": "Barbarians thrive in combat, wielding raw strength and ferocity to overwhelm foes. They excel in close-quarters combat, relying on brute force and primal instincts to dominate the battlefield.",
-    "image": "xxx",
-    "strength": "18",
-    "health": "18",
-    "dexterity": "18",
-    "intellect": "18",
-    "magic": "18",
-}
-```
-
-# ERC20
+![示例图片](./image.png)
