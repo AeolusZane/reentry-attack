@@ -1,7 +1,7 @@
 import {
   loadFixture,
 } from "@nomicfoundation/hardhat-toolbox/network-helpers";
-import hre from "hardhat";
+import hre, { ethers } from "hardhat";
 import { abi } from "../artifacts/contracts/ERC.sol/ERC.json";
 
 describe("GameItem ERC721", function () {
@@ -21,7 +21,7 @@ describe("GameItem ERC721", function () {
     return { attack };
   }
 
-  async function printInfo(attack, token) {
+  async function printInfo(attack: any, token: any) {
     const signer = await hre.ethers.provider.getSigner();
     const provider = hre.ethers.provider;
     const signer1 = await provider.getSigner(1);
@@ -72,7 +72,10 @@ describe("GameItem ERC721", function () {
       await printInfo(attack, token);
 
       console.log('⏰当前账号往token合约中转账...')
-      await token.f({ value: hre.ethers.parseEther("5") });
+      await signer.sendTransaction({
+        to: await token.getAddress(),
+        value: hre.ethers.parseEther("5"),
+      })
       await printInfo(attack, token);
 
       // 攻击者攻击合约

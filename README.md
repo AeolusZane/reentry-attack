@@ -27,3 +27,7 @@ The status of each step can be viewed through the console, and eventually the th
 可以通过控制台查看每一步的状态，最终可以看到盗窃者调用一次合约方法后，提走了所有资金
 
 ![示例图片](./image.png)
+
+## 解决方案（solution）
+1. 使用transfer，（限制了转账的gas，避免重入攻击）use `transfer` function to transfer ether.
+2. 使用oppenzeppelin的ReentryGuard（写在代码里了）use openzeppelin's standard `ReentrancyGuard` contract
