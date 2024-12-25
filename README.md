@@ -11,10 +11,10 @@
 0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0
 
 ## 流程(process)
-* 1.当前账号创建ERC20合约
-* 2.当前账号创建攻击合约
-* 3.当前账号给ERC20合约转账
-* 4.攻击合约调用ERC20合约提取资金（调用一次提走合约中所有的钱）
+* 1.当前账号创建ERC20合约(create ERC20 contract using current account)
+* 2.当前账号创建攻击合约(create Attack contract using current account)
+* 3.当前账号给ERC20合约转账(transfer ether to ERC20 contract, making it has some fund)
+* 4.攻击合约调用ERC20合约提取资金（调用一次提走合约中所有的钱）(Attack contract call `requestTokens` to withdraw ethers, you will find i called once but withdraw all the ethers in ERC20 contract)
 
 ## 执行(run)
 `npm install`安装依赖(install dependencies)
